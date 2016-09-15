@@ -1,7 +1,7 @@
 {
-  "name": "react-form-fields",
-  "version": "0.0.0",
-  "description": "react-form-fields",
+  "name": "react-form-field",
+  "version": "0.1.0",
+  "description": "react-form-field",
   "main": "index.js",
   "scripts": {
     "build": "rollup -c",
@@ -32,12 +32,12 @@
   ],
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/jomaxx/react-form-fields.git"
+    "url": "git+https://github.com/jomaxx/react-form-field.git"
   },
   "bugs": {
-    "url": "https://github.com/jomaxx/react-form-fields/issues"
+    "url": "https://github.com/jomaxx/react-form-field/issues"
   },
-  "homepage": "https://github.com/jomaxx/react-form-fields#readme",
+  "homepage": "https://github.com/jomaxx/react-form-field#readme",
   "keywords": [
     "react",
     "form",
