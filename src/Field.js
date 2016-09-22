@@ -15,13 +15,14 @@ export default class Field extends Component {
       : props.defaultValue
     );
 
+    this.error = props.validate(initialValue);
+
     this.state = {
       value: initialValue,
-      error: props.validate(initialValue),
       touched: false,
     };
 
-    this.hasError = () => !!this.state.error;
+    this.hasError = () => !!this.error;
 
     this.touch = () => {
       this.setState({ touched: true });
@@ -40,7 +41,6 @@ export default class Field extends Component {
       }
 
       this.setState({ value });
-
       this.props.onChange(value);
     };
   }
@@ -52,21 +52,15 @@ export default class Field extends Component {
 
   componentWillReceiveProps(nextProps) {
     if (!isControlled(nextProps)) return;
-
-    this.setState({
-      value: nextProps.value,
-    });
+    const { value } = nextProps;
+    this.setState({ value });
   }
 
-  componentWillUpdate(prevProps, prevState) {
-    const { validate } = this.props;
-    const { value } = this.state;
-
-    if (validate === prevProps.validate && value === prevState.value) return;
-
-    this.setState({
-      error: validate(value),
-    });
+  componentWillUpdate(nextProps, nextState) {
+    const { validate } = nextProps;
+    const { value } = nextState;
+    if (validate === this.props.validate && value === this.state.value) return;
+    this.error = nextProps.validate(nextState.value);
   }
 
   componentWillUnMount() {
@@ -74,9 +68,9 @@ export default class Field extends Component {
   }
 
   render() {
-    const { state, touch, update } = this;
+    const { state, touch, update, error } = this;
     const { children } = this.props;
-    return children(Object.assign({}, state, { touch, update }));
+    return children(Object.assign({}, state, { error, touch, update }));
   }
 }
 
