@@ -39,12 +39,7 @@ export default class Field extends Component {
         this.touch();
       }
 
-      if (!isControlled(this.props)) {
-        this.setState({
-          value,
-          error: this.props.validate(value),
-        });
-      }
+      this.setState({ value });
 
       this.props.onChange(value);
     };
@@ -56,13 +51,20 @@ export default class Field extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    const value = isControlled(nextProps) ? nextProps.value : this.state.value;
-    const validate = nextProps.validate;
-
-    if (value === this.state.value && validate === this.props.validate) return;
+    if (!isControlled(nextProps)) return;
 
     this.setState({
-      value,
+      value: nextProps.value,
+    });
+  }
+
+  componentWillUpdate(prevProps, prevState) {
+    const { validate } = this.props;
+    const { value } = this.state;
+
+    if (validate === prevProps.validate && value === prevState.value) return;
+
+    this.setState({
       error: validate(value),
     });
   }
